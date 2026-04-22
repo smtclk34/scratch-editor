@@ -1,10 +1,35 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scratch Eğitim Ortamı</title>
+
+<script defer src="gui.js"></script>
+
 <style>
+html, body{
+margin:0;
+height:100%;
+overflow:hidden;
+}
+
+/* SCRATCH FULL SCREEN */
+#scratch-container{
+position:absolute;
+top:0;
+left:0;
+right:0;
+bottom:0;
+}
+
+/* OVERLAY POPUP */
 #eduPopup{
 position:fixed;
 top:20px;
 right:20px;
 width:320px;
-height:400px;
+height:420px;
 background:white;
 border:2px solid #4d97ff;
 border-radius:10px;
@@ -16,30 +41,113 @@ overflow:hidden;
 font-family:Arial;
 }
 
+/* HEADER */
 #popupHeader{
 background:#4d97ff;
 color:white;
 padding:10px;
-cursor:move;
 font-weight:bold;
 }
 
+/* CONTENT */
 #popupContent{
 flex:1;
 padding:10px;
 overflow:auto;
+font-size:14px;
 }
 
+/* TOGGLE BUTTON */
 #popupBtn{
 position:fixed;
 top:20px;
 right:360px;
 z-index:99999;
-padding:10px 15px;
+padding:10px 14px;
 background:#ffab19;
 color:white;
 border:none;
 border-radius:20px;
 cursor:pointer;
+font-weight:bold;
+}
+
+#popupBtn:hover{
+background:#ff9900;
 }
 </style>
+</head>
+
+<body>
+
+<!-- SCRATCH EDITOR -->
+<div id="scratch-container">
+<!-- gui.js Scratch’i burada render eder -->
+</div>
+
+<!-- POPUP BUTTON -->
+<button id="popupBtn" onclick="togglePopup()">
+📘 Görev
+</button>
+
+<!-- EDUCATION POPUP -->
+<div id="eduPopup">
+
+<div id="popupHeader">
+🎯 Scratch Görev Paneli
+</div>
+
+<div id="popupContent">
+
+<h3>🐱 Görev 1</h3>
+<p>Kedi karakterini hareket ettir:</p>
+
+<ol>
+<li>Sprite ekle</li>
+<li>"move 10 steps" kullan</li>
+<li>Green flag ile çalıştır</li>
+</ol>
+
+<hr>
+
+<h3>🚀 Görev 2</h3>
+<p>Uzay gemisi yap:</p>
+
+<ol>
+<li>Ok tuşları ile hareket ettir</li>
+<li>Engel ekle</li>
+</ol>
+
+<hr>
+
+<h3>🎮 Görev 3</h3>
+<p>Pong oyunu oluştur:</p>
+
+<ol>
+<li>Top ve paddle ekle</li>
+<li>Çarpışma algıla</li>
+</ol>
+
+</div>
+</div>
+
+<script>
+
+let visible = true;
+
+function togglePopup(){
+const popup = document.getElementById("eduPopup");
+
+if(visible){
+popup.style.display = "none";
+visible = false;
+}else{
+popup.style.display = "flex";
+visible = true;
+}
+}
+
+</script>
+
+</body>
+</html>
