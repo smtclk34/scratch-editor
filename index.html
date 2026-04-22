@@ -2,53 +2,71 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Scratch LMS Platform</title>
+<title>Scratch LMS Eğitim Platformu</title>
 
 <style>
 body{
 margin:0;
-display:flex;
 height:100vh;
+display:flex;
 font-family:Arial;
+overflow:hidden;
 }
 
-/* SOL PANEL */
+/* SOL LMS */
 #left{
-width:420px;
+width:30%;
+border-right:1px solid #ddd;
 display:flex;
 flex-direction:column;
-border-right:1px solid #ddd;
-background:#f8fafc;
 }
 
-/* LMS */
 #lms{
 flex:1;
 border:none;
 }
 
-/* GÖREVLER */
+/* ORTA SCRATCH */
+#center{
+width:45%;
+border-right:1px solid #ddd;
+}
+
+#editor{
+width:100%;
+height:100%;
+border:none;
+}
+
+/* SAĞ PANEL */
+#right{
+width:25%;
+background:#f8fafc;
+display:flex;
+flex-direction:column;
+}
+
 #tasks{
-height:40%;
+padding:15px;
 overflow:auto;
-padding:10px;
-background:white;
-border-top:1px solid #ddd;
+flex:1;
 }
 
 .task{
-background:#fff;
-padding:10px;
+background:white;
+padding:12px;
 margin-bottom:10px;
 border-radius:8px;
 cursor:pointer;
 border:1px solid #ddd;
 }
 
-/* SAĞ EDITOR */
-#editor{
-flex:1;
-border:none;
+.task:hover{
+background:#e2e8f0;
+}
+
+h3{
+margin-top:0;
 }
 </style>
 
@@ -56,38 +74,92 @@ border:none;
 
 <body>
 
-<!-- SOL -->
+<!-- SOL: LMS -->
 <div id="left">
 
-<!-- TEK LMS iframe -->
 <iframe
 id="lms"
 src="https://lms.bilisimgaraji.com/outProjects/newLMS/course-viewer.html?course=EDT-101&title=Etkile%C5%9Fimli%20Elektronik%20Devre%20Tasar%C4%B1m%C4%B1"
 ></iframe>
 
-<!-- TEK GÖREV PANELİ -->
-<div id="tasks">
-
-<h3>🎯 Görevler</h3>
-
-<div class="task" onclick="setTask('Kedi')">🐱 Kedi hareket ettir</div>
-<div class="task" onclick="setTask('Uzay')">🚀 Uzay oyunu</div>
-<div class="task" onclick="setTask('Pong')">🎮 Pong oyunu</div>
-
 </div>
 
-</div>
-
-<!-- SAĞ SCRATCH -->
+<!-- ORTA: SCRATCH -->
+<div id="center">
 <iframe
 id="editor"
 src="https://scratch-editor-green.vercel.app"
 ></iframe>
+</div>
+
+<!-- SAĞ: GÖREV PANELİ -->
+<div id="right">
+
+<div id="tasks">
+
+<h3>🎯 Görevler</h3>
+
+<div class="task" onclick="showTask('kedi')">
+🐱 Kedi hareket ettir
+</div>
+
+<div class="task" onclick="showTask('uzay')">
+🚀 Uzay oyunu yap
+</div>
+
+<div class="task" onclick="showTask('pong')">
+🎮 Pong oyunu
+</div>
+
+<hr>
+
+<div id="taskDetail">
+Görev seçiniz...
+</div>
+
+</div>
+
+</div>
 
 <script>
 
-function setTask(name){
-alert("Seçilen görev: " + name);
+function showTask(type){
+
+let detail = document.getElementById("taskDetail");
+
+if(type === "kedi"){
+detail.innerHTML = `
+<h4>🐱 Görev 1</h4>
+<ol>
+<li>Sprite ekle (Cat)</li>
+<li>"move 10 steps" kullan</li>
+<li>green flag ile çalıştır</li>
+</ol>
+`;
+}
+
+if(type === "uzay"){
+detail.innerHTML = `
+<h4>🚀 Görev 2</h4>
+<ol>
+<li>Uzay gemisi sprite ekle</li>
+<li>Ok tuşları ile hareket ettir</li>
+<li>Engel oluştur</li>
+</ol>
+`;
+}
+
+if(type === "pong"){
+detail.innerHTML = `
+<h4>🎮 Görev 3</h4>
+<ol>
+<li>Top oluştur</li>
+<li>Paddle ekle</li>
+<li>Çarpışma algıla</li>
+</ol>
+`;
+}
+
 }
 
 </script>
