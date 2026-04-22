@@ -23,7 +23,7 @@ right:0;
 bottom:0;
 }
 
-/* POPUP (BÜYÜTÜLDÜ) */
+/* PANEL */
 #eduPopup{
 position:fixed;
 top:20px;
@@ -39,9 +39,15 @@ display:flex;
 flex-direction:column;
 overflow:hidden;
 font-family:Arial;
+transition:0.2s;
 }
 
-/* HEADER (DRAG + BÜYÜK) */
+/* KÜÇÜK MOD */
+#eduPopup.small{
+height:60px;
+}
+
+/* HEADER */
 #popupHeader{
 background:#ffab19;
 color:white;
@@ -71,14 +77,10 @@ font-weight:bold;
 border:1px solid #ddd;
 }
 
-.taskTitle:hover{
-background:#e2e8f0;
-}
-
 /* STEPS */
 .steps{
 display:none;
-margin:8px 0 15px 0;
+margin:8px 0;
 padding-left:10px;
 }
 
@@ -97,20 +99,32 @@ font-weight:bold;
 }
 
 /* COMPLETE BUTTON */
-#completeBtn{
+.completeBtn{
 display:none;
 margin-top:10px;
-padding:10px;
+padding:8px;
 background:#22c55e;
 color:white;
 border:none;
 border-radius:8px;
 cursor:pointer;
 font-weight:bold;
+width:100%;
 }
 
-#completeBtn:hover{
-background:#16a34a;
+/* TOGGLE BTN */
+#popupBtn{
+position:fixed;
+top:20px;
+right:420px;
+z-index:99999;
+padding:10px 14px;
+background:#ffab19;
+color:white;
+border:none;
+border-radius:20px;
+cursor:pointer;
+font-weight:bold;
 }
 </style>
 </head>
@@ -119,143 +133,161 @@ background:#16a34a;
 
 <div id="scratch-container"></div>
 
+<button id="popupBtn" onclick="togglePopup()">
+📘 Görev
+</button>
+
 <div id="eduPopup">
 
-<div id="popupHeader">
-🎯 Görev Paneli (Sürükle & Büyüt)
+<div id="popupHeader" onclick="toggleSize()">
+🎯 Görev Paneli (Tıkla Aç/Kapat)
 </div>
 
 <div id="popupContent">
 
 <!-- GÖREV 1 -->
 <div class="taskTitle" onclick="toggleTask('t1')">🐱 Görev 1</div>
+
 <div class="steps" id="t1">
 
-<div class="step" onclick="toggleCheck(this)">
+<div class="step" onclick="toggleCheck(this,'t1')">
 <span class="check">❌</span> Sprite ekle
 </div>
 
-<div class="step" onclick="toggleCheck(this)">
-<span class="check">❌</span> move 10 steps kullan
+<div class="step" onclick="toggleCheck(this,'t1')">
+<span class="check">❌</span> move 10 steps
 </div>
 
-<div class="step" onclick="toggleCheck(this)">
+<div class="step" onclick="toggleCheck(this,'t1')">
 <span class="check">❌</span> Green flag ile çalıştır
 </div>
+
+<button class="completeBtn" id="btn-t1" onclick="finish('Görev 1')">
+🎉 Görev 1 Tamamlandı
+</button>
 
 </div>
 
 <!-- GÖREV 2 -->
 <div class="taskTitle" onclick="toggleTask('t2')">🚀 Görev 2</div>
+
 <div class="steps" id="t2">
 
-<div class="step" onclick="toggleCheck(this)">
-<span class="check">❌</span> Ok tuşları ile hareket ettir
+<div class="step" onclick="toggleCheck(this,'t2')">
+<span class="check">❌</span> Ok tuşları ile hareket
 </div>
 
-<div class="step" onclick="toggleCheck(this)">
+<div class="step" onclick="toggleCheck(this,'t2')">
 <span class="check">❌</span> Engel ekle
 </div>
+
+<button class="completeBtn" id="btn-t2" onclick="finish('Görev 2')">
+🎉 Görev 2 Tamamlandı
+</button>
 
 </div>
 
 <!-- GÖREV 3 -->
 <div class="taskTitle" onclick="toggleTask('t3')">🎮 Görev 3</div>
+
 <div class="steps" id="t3">
 
-<div class="step" onclick="toggleCheck(this)">
+<div class="step" onclick="toggleCheck(this,'t3')">
 <span class="check">❌</span> Top oluştur
 </div>
 
-<div class="step" onclick="toggleCheck(this)">
+<div class="step" onclick="toggleCheck(this,'t3')">
 <span class="check">❌</span> Paddle ekle
 </div>
 
-</div>
-
-<button id="completeBtn" onclick="finishTask()">
-🎉 Görevi Tamamla
+<button class="completeBtn" id="btn-t3" onclick="finish('Görev 3')">
+🎉 Görev 3 Tamamlandı
 </button>
+
+</div>
 
 </div>
 </div>
 
 <script>
 
-let openTasks = {t1:false,t2:false,t3:false};
+let open = true;
 
-/* TASK OPEN/CLOSE */
+/* POPUP SHOW/HIDE */
+function togglePopup(){
+const p=document.getElementById("eduPopup");
+p.style.display = (p.style.display==="none")?"flex":"none";
+}
+
+/* SIZE TOGGLE */
+function toggleSize(){
+document.getElementById("eduPopup").classList.toggle("small");
+}
+
+/* TASK OPEN */
 function toggleTask(id){
-const el = document.getElementById(id);
-
-if(el.style.display === "block"){
-el.style.display = "none";
-openTasks[id] = false;
-}else{
-el.style.display = "block";
-openTasks[id] = true;
-}
+const el=document.getElementById(id);
+el.style.display = (el.style.display==="block")?"none":"block";
 }
 
-/* CHECK TOGGLE */
-function toggleCheck(el){
+/* CHECK */
+function toggleCheck(el,taskId){
+
 const icon = el.querySelector(".check");
 
-if(icon.innerText === "❌"){
-icon.innerText = "✔";
-icon.style.color = "green";
+if(icon.innerText==="❌"){
+icon.innerText="✔";
+icon.style.color="green";
 }else{
-icon.innerText = "❌";
-icon.style.color = "red";
+icon.innerText="❌";
+icon.style.color="red";
 }
 
-checkAllDone();
+checkTask(taskId);
 }
 
-/* ALL DONE CHECK */
-function checkAllDone(){
+/* CHECK TASK COMPLETE */
+function checkTask(taskId){
 
-const steps = document.querySelectorAll(".step");
-let allDone = true;
+const steps = document.querySelectorAll("#"+taskId+" .step");
+let done=true;
 
 steps.forEach(s=>{
-if(s.querySelector(".check").innerText !== "✔"){
-allDone = false;
+if(s.querySelector(".check").innerText!=="✔"){
+done=false;
 }
 });
 
-document.getElementById("completeBtn").style.display =
-allDone ? "block" : "none";
+document.getElementById("btn-"+taskId).style.display =
+done ? "block":"none";
 }
 
-/* COMPLETE MESSAGE */
-function finishTask(){
-alert("🎉 Görev başarıyla tamamlandı! Projeni kaydet.");
+/* COMPLETE */
+function finish(name){
+alert("🎉 "+name+" tamamlandı! Projeni kaydet.");
 }
 
 /* DRAG */
-const popup = document.getElementById("eduPopup");
-const header = document.getElementById("popupHeader");
+const popup=document.getElementById("eduPopup");
+const header=document.getElementById("popupHeader");
 
-let offsetX=0, offsetY=0, dragging=false;
+let ox=0,oy=0,drag=false;
 
 header.addEventListener("mousedown",(e)=>{
-dragging=true;
-offsetX=e.clientX-popup.offsetLeft;
-offsetY=e.clientY-popup.offsetTop;
+drag=true;
+ox=e.clientX-popup.offsetLeft;
+oy=e.clientY-popup.offsetTop;
 });
 
 document.addEventListener("mousemove",(e)=>{
-if(!dragging) return;
+if(!drag)return;
 
-popup.style.left=(e.clientX-offsetX)+"px";
-popup.style.top=(e.clientY-offsetY)+"px";
+popup.style.left=(e.clientX-ox)+"px";
+popup.style.top=(e.clientY-oy)+"px";
 popup.style.right="auto";
 });
 
-document.addEventListener("mouseup",()=>{
-dragging=false;
-});
+document.addEventListener("mouseup",()=>drag=false);
 
 </script>
 
