@@ -23,16 +23,16 @@ right:0;
 bottom:0;
 }
 
-/* POPUP */
+/* POPUP (BÜYÜTÜLDÜ) */
 #eduPopup{
 position:fixed;
 top:20px;
 right:20px;
-width:340px;
-height:450px;
+width:380px;
+height:520px;
 background:white;
 border:2px solid #4d97ff;
-border-radius:10px;
+border-radius:12px;
 z-index:99999;
 box-shadow:0 10px 30px rgba(0,0,0,0.3);
 display:flex;
@@ -41,11 +41,12 @@ overflow:hidden;
 font-family:Arial;
 }
 
-/* TURUNCU DRAG HEADER */
+/* HEADER (DRAG + BÜYÜK) */
 #popupHeader{
 background:#ffab19;
 color:white;
-padding:10px;
+padding:14px;
+font-size:16px;
 font-weight:bold;
 cursor:move;
 user-select:none;
@@ -59,8 +60,29 @@ overflow:auto;
 font-size:14px;
 }
 
-/* TASK ITEMS */
-.taskItem{
+/* TASK TITLE */
+.taskTitle{
+background:#f1f5f9;
+padding:10px;
+margin-bottom:6px;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+border:1px solid #ddd;
+}
+
+.taskTitle:hover{
+background:#e2e8f0;
+}
+
+/* STEPS */
+.steps{
+display:none;
+margin:8px 0 15px 0;
+padding-left:10px;
+}
+
+.step{
 display:flex;
 align-items:center;
 gap:8px;
@@ -69,24 +91,26 @@ cursor:pointer;
 }
 
 .check{
-font-weight:bold;
 width:18px;
 text-align:center;
+font-weight:bold;
 }
 
-/* BUTTON */
-#popupBtn{
-position:fixed;
-top:20px;
-right:380px;
-z-index:99999;
-padding:10px 14px;
-background:#ffab19;
+/* COMPLETE BUTTON */
+#completeBtn{
+display:none;
+margin-top:10px;
+padding:10px;
+background:#22c55e;
 color:white;
 border:none;
-border-radius:20px;
+border-radius:8px;
 cursor:pointer;
 font-weight:bold;
+}
+
+#completeBtn:hover{
+background:#16a34a;
 }
 </style>
 </head>
@@ -95,80 +119,81 @@ font-weight:bold;
 
 <div id="scratch-container"></div>
 
-<button id="popupBtn" onclick="togglePopup()">
-📘 Görev
-</button>
-
 <div id="eduPopup">
 
 <div id="popupHeader">
-🎯 Görev Paneli (Sürükle Beni)
+🎯 Görev Paneli (Sürükle & Büyüt)
 </div>
 
 <div id="popupContent">
 
-<h3>🐱 Görev 1</h3>
+<!-- GÖREV 1 -->
+<div class="taskTitle" onclick="toggleTask('t1')">🐱 Görev 1</div>
+<div class="steps" id="t1">
 
-<div class="taskItem" onclick="toggleCheck(this)">
-<span class="check">❌</span>
-Sprite ekle
+<div class="step" onclick="toggleCheck(this)">
+<span class="check">❌</span> Sprite ekle
 </div>
 
-<div class="taskItem" onclick="toggleCheck(this)">
-<span class="check">❌</span>
-“move 10 steps” kullan
+<div class="step" onclick="toggleCheck(this)">
+<span class="check">❌</span> move 10 steps kullan
 </div>
 
-<div class="taskItem" onclick="toggleCheck(this)">
-<span class="check">❌</span>
-Green flag ile çalıştır
+<div class="step" onclick="toggleCheck(this)">
+<span class="check">❌</span> Green flag ile çalıştır
 </div>
 
-<hr>
-
-<h3>🚀 Görev 2</h3>
-
-<div class="taskItem" onclick="toggleCheck(this)">
-<span class="check">❌</span>
-Ok tuşları ile hareket ettir
 </div>
 
-<div class="taskItem" onclick="toggleCheck(this)">
-<span class="check">❌</span>
-Engel ekle
+<!-- GÖREV 2 -->
+<div class="taskTitle" onclick="toggleTask('t2')">🚀 Görev 2</div>
+<div class="steps" id="t2">
+
+<div class="step" onclick="toggleCheck(this)">
+<span class="check">❌</span> Ok tuşları ile hareket ettir
 </div>
 
-<hr>
-
-<h3>🎮 Görev 3</h3>
-
-<div class="taskItem" onclick="toggleCheck(this)">
-<span class="check">❌</span>
-Top ve paddle ekle
+<div class="step" onclick="toggleCheck(this)">
+<span class="check">❌</span> Engel ekle
 </div>
 
-<div class="taskItem" onclick="toggleCheck(this)">
-<span class="check">❌</span>
-Çarpışma algıla
 </div>
+
+<!-- GÖREV 3 -->
+<div class="taskTitle" onclick="toggleTask('t3')">🎮 Görev 3</div>
+<div class="steps" id="t3">
+
+<div class="step" onclick="toggleCheck(this)">
+<span class="check">❌</span> Top oluştur
+</div>
+
+<div class="step" onclick="toggleCheck(this)">
+<span class="check">❌</span> Paddle ekle
+</div>
+
+</div>
+
+<button id="completeBtn" onclick="finishTask()">
+🎉 Görevi Tamamla
+</button>
 
 </div>
 </div>
 
 <script>
 
-let visible = true;
+let openTasks = {t1:false,t2:false,t3:false};
 
-/* popup aç/kapa */
-function togglePopup(){
-const popup = document.getElementById("eduPopup");
+/* TASK OPEN/CLOSE */
+function toggleTask(id){
+const el = document.getElementById(id);
 
-if(visible){
-popup.style.display = "none";
-visible = false;
+if(el.style.display === "block"){
+el.style.display = "none";
+openTasks[id] = false;
 }else{
-popup.style.display = "flex";
-visible = true;
+el.style.display = "block";
+openTasks[id] = true;
 }
 }
 
@@ -183,32 +208,53 @@ icon.style.color = "green";
 icon.innerText = "❌";
 icon.style.color = "red";
 }
+
+checkAllDone();
 }
 
-/* DRAG (sadece header) */
+/* ALL DONE CHECK */
+function checkAllDone(){
+
+const steps = document.querySelectorAll(".step");
+let allDone = true;
+
+steps.forEach(s=>{
+if(s.querySelector(".check").innerText !== "✔"){
+allDone = false;
+}
+});
+
+document.getElementById("completeBtn").style.display =
+allDone ? "block" : "none";
+}
+
+/* COMPLETE MESSAGE */
+function finishTask(){
+alert("🎉 Görev başarıyla tamamlandı! Projeni kaydet.");
+}
+
+/* DRAG */
 const popup = document.getElementById("eduPopup");
 const header = document.getElementById("popupHeader");
 
-let offsetX = 0;
-let offsetY = 0;
-let dragging = false;
+let offsetX=0, offsetY=0, dragging=false;
 
 header.addEventListener("mousedown",(e)=>{
-dragging = true;
-offsetX = e.clientX - popup.offsetLeft;
-offsetY = e.clientY - popup.offsetTop;
+dragging=true;
+offsetX=e.clientX-popup.offsetLeft;
+offsetY=e.clientY-popup.offsetTop;
 });
 
 document.addEventListener("mousemove",(e)=>{
 if(!dragging) return;
 
-popup.style.left = (e.clientX - offsetX) + "px";
-popup.style.top = (e.clientY - offsetY) + "px";
-popup.style.right = "auto";
+popup.style.left=(e.clientX-offsetX)+"px";
+popup.style.top=(e.clientY-offsetY)+"px";
+popup.style.right="auto";
 });
 
 document.addEventListener("mouseup",()=>{
-dragging = false;
+dragging=false;
 });
 
 </script>
