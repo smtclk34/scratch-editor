@@ -1,14 +1,124 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="google" value="notranslate">
-    <link rel="shortcut icon" href="static/favicon.ico">
-    <title>Scratch 3.0 GUI</title>
-  <script defer src="gui.js"></script></head>
-  <body>
-    
-  </body>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Scratch Öğrenme Platformu</title>
+
+<style>
+body {
+margin: 0;
+display: flex;
+height: 100vh;
+font-family: Arial, sans-serif;
+}
+
+/* SCRATCH EDITOR */
+#editor {
+flex: 3;
+border: none;
+}
+
+/* SAĞ PANEL */
+#panel {
+flex: 1;
+background: #f1f5f9;
+padding: 15px;
+overflow-y: auto;
+}
+
+h2 {
+margin-top: 0;
+}
+
+.task {
+background: white;
+padding: 12px;
+margin-bottom: 10px;
+border-radius: 8px;
+cursor: pointer;
+transition: 0.2s;
+}
+
+.task:hover {
+background: #e2e8f0;
+transform: scale(1.02);
+}
+
+button {
+padding: 12px;
+width: 100%;
+background: #4d97ff;
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+font-size: 14px;
+}
+
+button:hover {
+background: #2f7be5;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SCRATCH EDITOR -->
+<iframe
+id="editor"
+src="https://scratch-editor-green.vercel.app/"
+></iframe>
+
+<!-- SAĞ PANEL -->
+<div id="panel">
+
+<h2>🎯 Scratch Görevleri</h2>
+
+<div class="task" onclick="loadTask(1)">
+🐱 Görev 1: Kedi yürüt
+</div>
+
+<div class="task" onclick="loadTask(2)">
+🚀 Görev 2: Uzay oyunu oluştur
+</div>
+
+<div class="task" onclick="loadTask(3)">
+🎮 Görev 3: Pong oyunu yap
+</div>
+
+<hr>
+
+<button onclick="saveProject()">
+💾 Projeyi Kaydet (Hatırlatma)
+</button>
+
+</div>
+
+<script>
+
+// Görev seçimi
+function loadTask(task){
+
+if(task === 1){
+alert("🐱 Görev 1: Kediye hareket bloğu ekle");
+}
+
+if(task === 2){
+alert("🚀 Görev 2: Uzay gemisi ve engeller ekle");
+}
+
+if(task === 3){
+alert("🎮 Görev 3: Paddle ve top yap");
+}
+}
+
+// Kaydetme (basit bilgilendirme)
+function saveProject(){
+alert("Scratch içinde File → Save to your computer yapabilirsin");
+}
+
+</script>
+
+</body>
 </html>
