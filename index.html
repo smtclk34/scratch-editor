@@ -1,14 +1,145 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="google" value="notranslate">
-    <link rel="shortcut icon" href="static/favicon.ico">
-    <title>Scratch 3.0 GUI</title>
-  <script defer src="gui.js"></script></head>
-  <body>
-    
-  </body>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Scratch + LMS Eğitim Ortamı</title>
+
+<style>
+body{
+margin:0;
+display:flex;
+height:100vh;
+font-family:Arial;
+}
+
+/* SOL PANEL */
+#left{
+width:420px;
+display:flex;
+flex-direction:column;
+border-right:1px solid #ddd;
+background:#f8fafc;
+}
+
+/* LMS iframe */
+#lms{
+flex:1;
+border:none;
+}
+
+/* görev alanı */
+#tasks{
+height:40%;
+overflow:auto;
+padding:10px;
+background:white;
+border-top:1px solid #ddd;
+}
+
+.task{
+background:#fff;
+border:1px solid #ddd;
+padding:10px;
+margin-bottom:10px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.task:hover{
+background:#e2e8f0;
+}
+
+/* SAĞ SCRATCH */
+#editor{
+flex:1;
+border:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SOL: LMS + GÖREV -->
+<div id="left">
+
+<!-- LMS DERS -->
+<iframe
+id="lms"
+src="https://lms.bilisimgaraji.com/outProjects/newLMS/course-viewer.html?course=EDT-101&title=Etkile%C5%9Fimli%20Elektronik%20Devre%20Tasar%C4%B1m%C4%B1"
+></iframe>
+
+<!-- GÖREVLER -->
+<div id="tasks">
+
+<h3>🎯 Scratch Görevleri</h3>
+
+<div class="task" onclick="showTask(1)">
+🐱 1. Görev: Kedi hareket ettir
+</div>
+
+<div class="task" onclick="showTask(2)">
+🚀 2. Görev: Uzay gemisi yap
+</div>
+
+<div class="task" onclick="showTask(3)">
+🎮 3. Görev: Pong oyunu
+</div>
+
+</div>
+
+</div>
+
+<!-- SAĞ SCRATCH EDITÖR -->
+<iframe
+id="editor"
+src="https://scratch-editor-green.vercel.app"
+></iframe>
+
+<script>
+
+function showTask(id){
+
+let lms = document.getElementById("lms");
+
+if(id === 1){
+lms.srcdoc = `
+<h2>🐱 Görev 1</h2>
+<p>Kedi sprite ekle ve hareket ettir.</p>
+<ol>
+<li>Sprite ekle</li>
+<li>move 10 steps kullan</li>
+<li>green flag ile çalıştır</li>
+</ol>
+`;
+}
+
+if(id === 2){
+lms.srcdoc = `
+<h2>🚀 Görev 2</h2>
+<p>Uzay gemisi kontrolü yap.</p>
+<ol>
+<li>ok tuşları ile hareket</li>
+<li>engel ekle</li>
+</ol>
+`;
+}
+
+if(id === 3){
+lms.srcdoc = `
+<h2>🎮 Görev 3</h2>
+<p>Pong oyunu oluştur.</p>
+<ol>
+<li>top sprite</li>
+<li>paddle</li>
+<li>çarpışma</li>
+</ol>
+`;
+}
+
+}
+
+</script>
+
+</body>
 </html>
